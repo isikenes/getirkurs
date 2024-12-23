@@ -1,9 +1,14 @@
-# SETUP COMMANDS
-cd backend
-dotnet restore
-dotnet run
+# Disclaimer
+This project is not affiliated with, endorsed by, or associated with Getir company.
 
-cd frontend
-npm install
-npm start
+# SETUP COMMANDS
+## BACKEND 
+*cd backend </br>
+*dotnet restore </br>
+*dotnet run </br>
+
+## FRONTEND
+*cd frontend </br>
+*npm install </br>
+*npm start </br>
  
