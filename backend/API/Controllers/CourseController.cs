@@ -42,5 +42,12 @@ namespace API.Controllers
             await courseService.Delete(id);
             return NoContent();
         }
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetByCategory(string category)
+        {
+            var courses = await courseService.GetByCategory(category);
+            return Ok(courses);
+        }
     }
 }

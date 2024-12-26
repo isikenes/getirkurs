@@ -24,6 +24,15 @@ namespace Infrastructure.Repositories
             return await context.Courses.ToListAsync();
         }
 
+        public async Task<IEnumerable<Course>> GetByCategory(string category)
+        {
+            var courses = await context.Courses
+            .Where(c => c.Category == category)
+            .ToListAsync();
+
+            return courses;
+        }
+
         public async Task<Course> GetById(int id)
         {
             return await context.Courses.FindAsync(id);

@@ -16,6 +16,7 @@ namespace Business.Services
                 Id = course.Id,
                 Title = course.Title,
                 Description = course.Description,
+                Category = course.Category,
                 Price = course.Price,
                 ImageUrl = course.ImageUrl,
                 Hours = course.Hours,
@@ -43,6 +44,7 @@ namespace Business.Services
                 Id = c.Id,
                 Title = c.Title,
                 Description = c.Description,
+                Category = c.Category,
                 Price = c.Price,
                 ImageUrl = c.ImageUrl,
                 Hours = c.Hours,
@@ -59,6 +61,7 @@ namespace Business.Services
                 Id = course.Id,
                 Title = course.Title,
                 Description = course.Description,
+                Category = course.Category,
                 Price = course.Price,
                 ImageUrl = course.ImageUrl,
                 Hours = course.Hours,
@@ -73,6 +76,7 @@ namespace Business.Services
             {
                 courseEntity.Title = course.Title;
                 courseEntity.Description = course.Description;
+                courseEntity.Category = course.Category;
                 courseEntity.Price = course.Price;
                 courseEntity.ImageUrl = course.ImageUrl;
                 courseEntity.Hours = course.Hours;
@@ -81,6 +85,23 @@ namespace Business.Services
                 await unitOfWork.Courses.Update(courseEntity);
                 await unitOfWork.Save();
             }
+        }
+
+        async Task<IEnumerable<CourseDTO>> ICourseService.GetByCategory(string category)
+        {
+            var courses = await unitOfWork.Courses.GetByCategory(category);
+
+            return courses.Select(c => new CourseDTO
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description,
+                Category = c.Category,
+                Price = c.Price,
+                ImageUrl = c.ImageUrl,
+                Hours = c.Hours,
+                InstructorId = c.InstructorId
+            });
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Business.Interfaces
         Task Create(CourseDTO course);
         Task Update(CourseDTO course);
         Task Delete(int id);
+        Task<IEnumerable<CourseDTO>> GetByCategory(string category);
     }
 }

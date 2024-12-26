@@ -9,5 +9,6 @@ namespace Infrastructure.Repositories.Interfaces
         Task Create(Course course);
         Task Update(Course course);
         Task Delete(int id);
+        Task<IEnumerable<Course>> GetByCategory(string category);
     }
 }
