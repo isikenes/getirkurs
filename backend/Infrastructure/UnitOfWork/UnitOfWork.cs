@@ -8,6 +8,7 @@ namespace Infrastructure.UnitOfWork
     {
         private ICourseRepository courseRepository;
         private IOrderRepository orderRepository;
+        private IPaymentMethodRepository paymentMethodRepository;
 
         public ICourseRepository Courses
         {
@@ -30,6 +31,18 @@ namespace Infrastructure.UnitOfWork
                     orderRepository = new OrderRepository(context);
                 }
                 return orderRepository;
+            }
+        }
+
+        public IPaymentMethodRepository PaymentMethods
+        {
+            get
+            {
+                if (paymentMethodRepository == null)
+                {
+                    paymentMethodRepository = new PaymentMethodRepository(context);
+                }
+                return paymentMethodRepository;
             }
         }
 

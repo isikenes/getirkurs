@@ -6,6 +6,8 @@ namespace Infrastructure.UnitOfWork
     {
         ICourseRepository Courses { get; }
         IOrderRepository Orders { get; }
+        IPaymentMethodRepository PaymentMethods { get; }
+
         Task<int> Save();
     }
 }
