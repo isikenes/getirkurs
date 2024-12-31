@@ -1,13 +1,37 @@
 ﻿using Infrastructure.Database;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Infrastructure.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(AppDbContext context) : IUnitOfWork
     {
-        private readonly AppDbContext context;
+        private ICourseRepository courseRepository;
+        private IOrderRepository orderRepository;
 
-        public ICourseRepository Courses { get; }
+        public ICourseRepository Courses
+        {
+            get
+            {
+                if (courseRepository == null)
+                {
+                    courseRepository = new CourseRepository(context);
+                }
+                return courseRepository;
+            }
+        }
+
+        public IOrderRepository Orders
+        {
+            get
+            {
+                if (orderRepository == null)
+                {
+                    orderRepository = new OrderRepository(context);
+                }
+                return orderRepository;
+            }
+        }
 
         public async Task<int> Save()
         {

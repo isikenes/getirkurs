@@ -13,7 +13,7 @@ namespace API.Controllers
         //I've implemented AccountService but I could not use SignInManager in the service.
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserDTO userDTO)
+        public async Task<IActionResult> Register(UserRegisterDTO userDTO)
         {
             if (await userManager.FindByEmailAsync(userDTO.Email) != null)
             {
@@ -34,11 +34,11 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserDTO userDTO)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            var user = await userManager.FindByEmailAsync(userDTO.Email);
+            var user = await userManager.FindByEmailAsync(loginDTO.Email);
             if (user == null) return Unauthorized("Invalied email or password");
-            var result = await signInManager.PasswordSignInAsync(user, userDTO.Password, false, false);
+            var result = await signInManager.PasswordSignInAsync(user, loginDTO.Password, false, false);
             if (!result.Succeeded) return Unauthorized("Invalied email or password");
 
             var token = "";
@@ -65,7 +65,7 @@ namespace API.Controllers
         }
 
         [HttpPut("profile")]
-        public async Task<IActionResult> UpdateProfile(UserDTO userDTO)
+        public async Task<IActionResult> UpdateProfile(UserUpdateDTO userDTO)
         {
             var userId = userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userId)) return Unauthorized("Not logged in");
@@ -73,9 +73,9 @@ namespace API.Controllers
             var user = await userManager.FindByIdAsync(userId);
             if (user == null) return NotFound("User not found");
 
-            user.DisplayName = userDTO.DisplayName;
-            user.Email = userDTO.Email;
-            user.UserName = userDTO.Username;
+            if (!string.IsNullOrEmpty(userDTO.DisplayName)) user.DisplayName = userDTO.DisplayName;
+            if (!string.IsNullOrEmpty(userDTO.Email)) user.Email = userDTO.Email;
+            if (!string.IsNullOrEmpty(userDTO.Username)) user.UserName = userDTO.Username;
 
             var result = await userManager.UpdateAsync(user);
             if (!result.Succeeded) return BadRequest("Failed to update profile");
@@ -83,7 +83,7 @@ namespace API.Controllers
         }
 
         [HttpPut("update-password")]
-        public async Task<IActionResult> UpdatePassword(UserDTO userDTO)
+        public async Task<IActionResult> UpdatePassword(PasswordDTO passwordDTO)
         {
             var userId = userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userId)) return Unauthorized("Not logged in");
@@ -91,8 +91,7 @@ namespace API.Controllers
             var user = await userManager.FindByIdAsync(userId);
             if (user == null) return NotFound("User not found");
 
-            var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await userManager.ChangePasswordAsync(user, resetToken, userDTO.Password);
+            var result = await userManager.ChangePasswordAsync(user, passwordDTO.CurrentPassword, passwordDTO.NewPassword);
             if (!result.Succeeded) return BadRequest("Failed to update password");
             return Ok();
         }

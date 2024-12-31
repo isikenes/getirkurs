@@ -5,9 +5,8 @@ using Infrastructure.UnitOfWork;
 
 namespace Business.Services
 {
-    public class CourseService : ICourseService
+    public class CourseService(IUnitOfWork unitOfWork) : ICourseService
     {
-        private readonly IUnitOfWork unitOfWork;
 
         public async Task Create(CourseDTO course)
         {
