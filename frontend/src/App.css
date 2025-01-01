@@ -15,6 +15,14 @@
   color: #6541ce !important;
 }
 
+.bg-darkpurple {
+  background-color: #4c3398 !important;
+}
+
+.color-darkpurple {
+  color: #4c3398 !important;
+}
+
 .bg-yellow {
   background-color: #ffd300 !important;
 }
@@ -23,6 +31,9 @@
   color: #ffd300 !important;
 }
 
+.full-height {
+  height: calc(100vh - 56px);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
