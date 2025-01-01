@@ -7,6 +7,23 @@
   pointer-events: none;
 }
 
+.bg-purple {
+  background-color: #6541ce !important;
+}
+
+.color-purple {
+  color: #6541ce !important;
+}
+
+.bg-yellow {
+  background-color: #ffd300 !important;
+}
+
+.color-yellow {
+  color: #ffd300 !important;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

@@ -1,16 +1,20 @@
 ﻿using Business.DTOs;
 using Infrastructure.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : ControllerBase
+    public class AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration) : ControllerBase
     {
-
-        //I've implemented AccountService but I could not use SignInManager in the service.
+        private readonly IConfiguration _configuration = configuration;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterDTO userDTO)
@@ -37,12 +41,30 @@ namespace API.Controllers
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
             var user = await userManager.FindByEmailAsync(loginDTO.Email);
-            if (user == null) return Unauthorized("Invalied email or password");
+            if (user == null) return Unauthorized("Invalid email or password");
             var result = await signInManager.PasswordSignInAsync(user, loginDTO.Password, false, false);
-            if (!result.Succeeded) return Unauthorized("Invalied email or password");
+            if (!result.Succeeded) return Unauthorized("Invalid email or password");
 
-            var token = "";
-            return Ok(new { token });
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                claims: new[] {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email),
+                },
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds
+            );
+
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        }
+
+        [Authorize]
+        [HttpGet("validate-token")]
+        public IActionResult ValidateToken()
+        {
+            return Ok(new { valid = true });
         }
 
         [HttpGet("profile")]
