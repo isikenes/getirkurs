@@ -47,7 +47,8 @@ namespace Business.Services
                 Price = c.Price,
                 ImageUrl = c.ImageUrl,
                 Hours = c.Hours,
-                InstructorId = c.InstructorId
+                InstructorId = c.InstructorId,
+                InstructorName = c.Instructor.DisplayName
             });
         }
 
@@ -64,7 +65,8 @@ namespace Business.Services
                 Price = course.Price,
                 ImageUrl = course.ImageUrl,
                 Hours = course.Hours,
-                InstructorId = course.InstructorId
+                InstructorId = course.InstructorId,
+                InstructorName = course.Instructor.DisplayName
             };
         }
 
@@ -99,7 +101,8 @@ namespace Business.Services
                 Price = c.Price,
                 ImageUrl = c.ImageUrl,
                 Hours = c.Hours,
-                InstructorId = c.InstructorId
+                InstructorId = c.InstructorId,
+                InstructorName = c.Instructor.DisplayName
             });
         }
     }

@@ -19,3 +19,23 @@ export const validateToken = async (token) => {
         throw new Error('Token validation failed');
     }
 };
+
+export const getAllCourses = async () => {
+    try {
+        const response = await api.get("/Course");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        throw error;
+    }
+};
+
+export const getCourseById = async (id) => {
+    try {
+        const response = await api.get(`/Course/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course by ID:", error);
+        throw error;
+    }
+};

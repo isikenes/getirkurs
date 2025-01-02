@@ -19,6 +19,12 @@ namespace Infrastructure.Database
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Instructor)
+                .WithMany()
+                .HasForeignKey(c => c.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<AppRole>().HasData(
                 new AppRole
                 {
@@ -70,9 +76,9 @@ namespace Infrastructure.Database
                     Description = "Learn the basics of C#",
                     Category = "Programming",
                     Price = 9.99m,
-                    ImageUrl = "https://placehold.co/600x400",
+                    ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/C_Sharp_Logo_2023.svg/1200px-C_Sharp_Logo_2023.svg.png",
                     Hours = 10,
-                    InstructorId = 1
+                    InstructorId = "1"
                 },
                 new Course
                 {
@@ -81,9 +87,9 @@ namespace Infrastructure.Database
                     Description = "Learn the basics of ASP.NET Core",
                     Category = "Programming",
                     Price = 19.99m,
-                    ImageUrl = "https://placehold.co/600x400",
+                    ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Microsoft_.NET_logo.svg/1200px-Microsoft_.NET_logo.svg.png",
                     Hours = 20,
-                    InstructorId = 1
+                    InstructorId = "1"
                 },
                 new Course
                 {
@@ -92,9 +98,9 @@ namespace Infrastructure.Database
                     Description = "Learn the basics of Angular",
                     Category = "Programming",
                     Price = 14.99m,
-                    ImageUrl = "https://placehold.co/600x400",
+                    ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png",
                     Hours = 15,
-                    InstructorId = 1
+                    InstructorId = "1"
                 }
             );
         }

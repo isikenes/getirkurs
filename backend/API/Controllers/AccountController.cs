@@ -34,6 +34,9 @@ namespace API.Controllers
             var result = await userManager.CreateAsync(user, userDTO.Password);
             if (!result.Succeeded) return BadRequest("Failed to register!");
 
+            var roleResult = await userManager.AddToRoleAsync(user, "User");
+            if (!roleResult.Succeeded) return BadRequest("Failed to assign role!");
+
             return Ok();
         }
 

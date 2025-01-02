@@ -142,7 +142,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "df24f0e1-1d79-41a0-80b8-9a233f958de2",
+                            ConcurrencyStamp = "feca72b2-7f4e-4529-8a72-ded4c4863952",
                             DisplayName = "Admin",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
@@ -151,7 +151,7 @@ namespace Infrastructure.Migrations
                             NormalizedUserName = "ADMIN",
                             PasswordHash = "AQAAAAIAAYagAAAAECBS57rOBk4rS3X8stW5LOeJTt2XwrAMLMgDrjfG/xOFtbsJY9vWX5mU3RXdIp5JQQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d52e7523-69db-4276-ac90-a2aeac7055a8",
+                            SecurityStamp = "763342d2-0aa1-4bd9-8dd3-512a82eeaae6",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -180,8 +180,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -192,6 +193,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("InstructorId");
+
                     b.ToTable("Courses");
 
                     b.HasData(
@@ -201,8 +204,8 @@ namespace Infrastructure.Migrations
                             Category = "Programming",
                             Description = "Learn the basics of C#",
                             Hours = 10f,
-                            ImageUrl = "https://placehold.co/600x400",
-                            InstructorId = 1,
+                            ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/C_Sharp_Logo_2023.svg/1200px-C_Sharp_Logo_2023.svg.png",
+                            InstructorId = "1",
                             Price = 9.99m,
                             Title = "C# Fundamentals"
                         },
@@ -212,8 +215,8 @@ namespace Infrastructure.Migrations
                             Category = "Programming",
                             Description = "Learn the basics of ASP.NET Core",
                             Hours = 20f,
-                            ImageUrl = "https://placehold.co/600x400",
-                            InstructorId = 1,
+                            ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Microsoft_.NET_logo.svg/1200px-Microsoft_.NET_logo.svg.png",
+                            InstructorId = "1",
                             Price = 19.99m,
                             Title = "ASP.NET Core"
                         },
@@ -223,8 +226,8 @@ namespace Infrastructure.Migrations
                             Category = "Programming",
                             Description = "Learn the basics of Angular",
                             Hours = 15f,
-                            ImageUrl = "https://placehold.co/600x400",
-                            InstructorId = 1,
+                            ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png",
+                            InstructorId = "1",
                             Price = 14.99m,
                             Title = "Angular"
                         });
@@ -395,6 +398,17 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.Course", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.AppUser", "Instructor")
+                        .WithMany()
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Instructor");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Order", b =>

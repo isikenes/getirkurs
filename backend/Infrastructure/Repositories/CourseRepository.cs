@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Course>> GetAll()
         {
-            return await context.Courses.ToListAsync();
+            return await context.Courses.Include(c => c.Instructor).ToListAsync();
         }
 
         public async Task<IEnumerable<Course>> GetByCategory(string category)
@@ -35,7 +35,7 @@ namespace Infrastructure.Repositories
 
         public async Task<Course> GetById(int id)
         {
-            return await context.Courses.FindAsync(id);
+            return await context.Courses.Include(c => c.Instructor).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task Update(Course course)

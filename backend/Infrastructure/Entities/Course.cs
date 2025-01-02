@@ -9,6 +9,7 @@
         public decimal Price { get; set; }
         public required string ImageUrl { get; set; }
         public float Hours { get; set; }
-        public int InstructorId { get; set; }
+        public string InstructorId { get; set; }
+        public AppUser Instructor { get; set; }
     }
 }
