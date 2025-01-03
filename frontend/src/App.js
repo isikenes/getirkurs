@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CourseDetails from './pages/CourseDetails';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path='/courses/:id' element={<CourseDetails />} />
-        
+        <Route path="*" element={<NotFound />} />
+
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Home />

@@ -1,10 +1,12 @@
 ﻿using Business.DTOs;
 using Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController(IPaymentMethodService paymentMethodService) : ControllerBase

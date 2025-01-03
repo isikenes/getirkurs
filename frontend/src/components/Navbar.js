@@ -41,10 +41,10 @@ const Navbar = () => {
                         {!isAuthenticated && (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/login">Login</Link>
+                                    <Link className="nav-link px-2" to="/login">Login</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/register">Register</Link>
+                                    <Link className="nav-link px-2" to="/register">Register</Link>
                                 </li>
                             </>
                         )}
@@ -52,10 +52,10 @@ const Navbar = () => {
                         {isAuthenticated && (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/profile">Profile</Link>
+                                    <Link className="nav-link px-2" to="/profile">Profile</Link>
                                 </li>
-                                <li className="nav-item">
-                                    <button className="btn btn-danger btn-sm nav-link" onClick={handleLogout}>
+                                <li className="nav-item d-flex justify-content-center align-items-center">
+                                    <button className="btn btn-danger btn-sm nav-link px-2" onClick={handleLogout}>
                                         Logout
                                     </button>
                                 </li>

@@ -70,6 +70,7 @@ namespace API.Controllers
             return Ok(new { valid = true });
         }
 
+        [Authorize]
         [HttpGet("profile")]
         public async Task<IActionResult> Profile()
         {
@@ -89,6 +90,7 @@ namespace API.Controllers
             return Ok(profile);
         }
 
+        [Authorize]
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile(UserUpdateDTO userDTO)
         {
@@ -107,6 +109,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPut("update-password")]
         public async Task<IActionResult> UpdatePassword(PasswordDTO passwordDTO)
         {
@@ -128,6 +131,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete()
         {
@@ -141,5 +145,7 @@ namespace API.Controllers
             if (!result.Succeeded) return BadRequest("Failed to delete user");
             return Ok();
         }
+
+
     }
 }

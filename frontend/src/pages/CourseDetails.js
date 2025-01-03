@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getCourseById } from "../services/api";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -10,22 +11,26 @@ const CourseDetails = () => {
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    
     useEffect(() => {
         const fetchCourse = async () => {
             try {
                 const response = await getCourseById(id);
-                setCourse(response);
+                if(!response) {
+                    navigate("/404");
+                } else{
+                    setCourse(response);
+                    setLoading(false);
+                }
             } catch (error) {
                 console.log(error);
-            } finally {
-                setLoading(false);
+                navigate("/404");
             }
         };
 
         setIsLoggedIn(!!localStorage.getItem("token"));
         fetchCourse();
-    }, [id]);
+    }, [id, navigate]);
 
     const handlePurchase = () => {
         if (!isLoggedIn) {
@@ -37,7 +42,7 @@ const CourseDetails = () => {
         //todo purchase modal
     }
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <LoadingSpinner loading={loading} />;
 
     return (
         <div className="container full-height mt-5 px-5">

@@ -55,6 +55,10 @@ namespace Business.Services
         public async Task<CourseDTO> GetById(int id)
         {
             var course = await unitOfWork.Courses.GetById(id);
+            if (course == null)
+            {
+                throw new Exception("Course not found");
+            }
 
             return new CourseDTO
             {

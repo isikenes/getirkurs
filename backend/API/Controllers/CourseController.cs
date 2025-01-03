@@ -1,5 +1,6 @@
 ﻿using Business.DTOs;
 using Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,10 +19,18 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var course = await courseService.GetById(id);
-            return Ok(course);
+            try
+            {
+                var course = await courseService.GetById(id);
+                return Ok(course);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
         }
 
+        [Authorize(Roles = "Instructor")]
         [HttpPost]
         public async Task<IActionResult> Create(CourseDTO course)
         {
@@ -29,6 +38,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = course.Id }, course);
         }
 
+        [Authorize(Roles = "Instructor")]
         [HttpPut]
         public async Task<IActionResult> Update(CourseDTO course)
         {
@@ -36,6 +46,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Instructor")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
