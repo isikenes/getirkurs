@@ -11,6 +11,7 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,6 +20,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { email, password } = formData;
+        setLoading(true);
 
         if (!email || !password) {
             alertify.error("All fields are required!");
@@ -30,10 +32,10 @@ const Login = () => {
             alertify.success("Login successful!");
             localStorage.setItem("token", response.data.token);
             navigate("/");
-
-
         } catch (err) {
             alertify.error("Login failed!");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -52,7 +54,9 @@ const Login = () => {
                                 <label>Password</label>
                                 <input type="password" name="password" className="form-control mb-3" onChange={handleChange} />
                             </div>
-                            <button type="submit" className="btn btn-primary w-100 mt-2 bg-purple">Login</button>
+                            <button type="submit" className="btn btn-primary" disabled={loading}>
+                                {loading ? 'Logging in...' : 'Login'}
+                            </button>
                         </form>
                     </div>
                 </div>

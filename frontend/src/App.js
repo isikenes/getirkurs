@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CourseDetails from './pages/CourseDetails';
 import NotFound from './components/NotFound';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -23,12 +24,15 @@ function App() {
         <Route path='/courses/:id' element={<CourseDetails />} />
         <Route path="*" element={<NotFound />} />
 
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } 
         />
+    
       </Routes>
       <Footer />
     </Router>

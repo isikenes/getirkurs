@@ -36,7 +36,11 @@ const Home = () => {
   };
 
   if (loading) return <LoadingSpinner loading={loading} />;
-  if (error) return <p>{error}</p>;
+  if (error) return (
+    <div className="container full-height d-flex justify-content-center align-items-center">
+      <h1 className='display-2 color-purple'>{error.message}</h1>
+    </div>
+  );
 
   return (
     <div className="container full-height">

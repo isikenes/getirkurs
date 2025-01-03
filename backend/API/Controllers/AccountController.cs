@@ -56,7 +56,7 @@ namespace API.Controllers
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(ClaimTypes.Email, user.Email),
                 },
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: creds
             );
 
